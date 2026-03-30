@@ -1,0 +1,6 @@
+pyarrow
+numba
+akshare
+flask
+baostock
+czsc

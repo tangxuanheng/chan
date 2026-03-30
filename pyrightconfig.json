@@ -1,0 +1,5 @@
+{
+  "exclude": ["**/data", "**/__pycache__", ".venv", ".git"],
+  "pythonVersion": "3.10",
+  "typeCheckingMode": "basic"
+}

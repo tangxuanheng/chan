@@ -1,0 +1,16 @@
+初始化阶段：
+  全量历史 → calc_ma (全量) → calc_macd_full (全量) → 存df + 存快照
+  快照内容: {code, last_date, last_close, level, hit_count,
+             ma_5_last, ma_5_tail, ma_8_last, ma_8_tail, ...,
+             ema12_last, ema26_last, dea_last}
+
+每日增量：
+  快照 → 拉增量数据 → 拼接[历史尾巴+新数据]
+       → calc_ma_from_state (从快照MA值接续)
+       → calc_macd_from_state (从快照EMA/DEA接续)
+       → 写回df → 更新快照
+
+关键点：
+  ① 均线增量需要 close[i-period]，尾巴保证了 idx - period >= 0
+  ② MACD 增量需要 ema12[i-1]/ema26[i-1]/dea[i-1]，快照直接提供
+  ③ 每次增量后快照同步更新，形成闭环
